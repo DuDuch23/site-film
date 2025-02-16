@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+li{
+  list-style-type: none;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
