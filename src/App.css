@@ -70,3 +70,16 @@
 .btn-add-favorite svg path{
   stroke: #EFCE4A;
 }
+
+.btn-add-favorite svg{
+  width: 30px;
+}
+
+.btn-add-favorite{
+  padding: 0;
+  background: none;
+}
+
+.fill-svg svg path{
+  fill: #EFCE4A;
+}

@@ -64,12 +64,6 @@ function App() {
     }, []);
 
     useEffect(() => {
-        getFavoriteMovies().then((dataFavoriteMovies) => {
-            console.log(dataFavoriteMovies);
-        })
-    }, [])
-
-    useEffect(() => {
         if (genre) {
             sortFilmByGenre(genre).then((dataMovies) => {
                 setMovies(dataMovies.results);
@@ -96,7 +90,11 @@ function App() {
         <ul className='films-container'>
             {movies.map((movie) => (
             <li key={movie.id}>
-                <ButtonAddFavorite movie={movie} sessionId={sessionId} accountId={accountId}/>
+                {!sessionId && !accountId ? (
+                    ""
+                ) : (
+                    <ButtonAddFavorite movie={movie} sessionId={sessionId} accountId={accountId}/>      
+                )}
                 <button onClick={() => openPopup(movie)}>
                     <p>{movie.title}</p>
                     <img

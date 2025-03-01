@@ -1,8 +1,20 @@
 import { addToFavorite } from './Fetch';
-import {  useState } from 'react';
+import {  useState, useEffect } from 'react';
+import { getFavoriteMovies } from './Fetch';
 
 export default function ButtonAddFavorite({ movie, sessionId, accountId }) {
     const [favorite, setFavorite] = useState(false);
+
+    useEffect(() => {
+        if (!sessionId || !accountId || !movie?.id) return;
+
+        getFavoriteMovies(sessionId, accountId).then((favoriteMovies) => {
+            if (favoriteMovies && favoriteMovies.results) {
+                const isFavorite = favoriteMovies.results.some((favMovie) => favMovie.id === movie.id);
+                setFavorite(isFavorite);
+            }
+        });
+    }, [sessionId, accountId, movie]);
 
     const handleAddFavorite = () => {
         if (!movie || !movie.id) {
@@ -22,7 +34,7 @@ export default function ButtonAddFavorite({ movie, sessionId, accountId }) {
 
     return (
         <div>
-            <button className="btn-add-favorite" onClick={handleAddFavorite}>
+            <button className={`btn-add-favorite ${favorite ? "fill-svg" : ""}`}   onClick={handleAddFavorite}>
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
