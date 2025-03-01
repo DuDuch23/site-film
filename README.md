@@ -7,3 +7,4 @@ Pour faire fonctionner le projet :
 - git clone LIEN_DU_PROJET
 - Se placer à la racine du projet et lancé npm install
 - Puis npm run dev pour lancer le projet, il y aura un lien localhost
+- Mettre son credential dans les différents composants

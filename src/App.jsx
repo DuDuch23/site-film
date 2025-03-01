@@ -6,7 +6,7 @@ import Selectgenre from './components/Selectgenre';
 import Moviepopup from './components/Moviepopup';
 import ButtonAddFavorite from './components/AddFavorite';
 
-const credential = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZjU1MGJhZDNkZjdmNTUzMmY0Y2ZkMTRiMjUwNzIyOCIsIm5iZiI6MTczODc2OTg5OS4yNTMsInN1YiI6IjY3YTM4NWViYWVlZTVjMGUyNTlmZTYzYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dim49pFAUacYuIBFyGOSQQTwCoFbDLyZOCO-_tVBCMg";
+const credential = "moncredential";
 
 export async function fetchData() {
     const options = {
