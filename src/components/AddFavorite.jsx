@@ -1,5 +1,5 @@
 import {  useState, useEffect } from 'react';
-const credential = "moncredential";
+const credential = import.meta.env.VITE_API_KEY;
 
 export async function addToFavorite(movieId, sessionId, accountId) {
     console.log("Session ID:", sessionId);

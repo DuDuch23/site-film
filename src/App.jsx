@@ -6,7 +6,7 @@ import Selectgenre from './components/Selectgenre';
 import Moviepopup from './components/Moviepopup';
 import ButtonAddFavorite from './components/AddFavorite';
 
-const credential = "moncredential";
+const credential = import.meta.env.VITE_API_KEY;
 
 export async function fetchData() {
     const options = {
@@ -36,6 +36,30 @@ export async function sortFilmByGenre(genreId) {
 
     const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}&language=en`;
 
+    return fetch(url, options)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch((err) => {
+            console.error(err);
+            return { result: [] };
+        });
+}
+
+export async function searchMoviebyTitle(search) {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer ' + credential
+        }
+    };
+
+    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(search)}&include_adult=false&language=en-US&page=1`;
+    
     return fetch(url, options)
         .then((response) => {
             if (!response.ok) {
@@ -119,7 +143,8 @@ export async function createSession(requestToken) {
 
 function App() {
     const [movies, setMovies] = useState([]);
-    const [genre, setGenre] = useState(null)
+    const [genre, setGenre] = useState(null);
+    const [search, setSearch] = useState('');
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [sessionId, setSessionId] = useState(localStorage.getItem("sessionId"));
     const [accountId, setAccountId] = useState(localStorage.getItem("accountId"));
@@ -160,6 +185,10 @@ function App() {
         setGenre(value)
     }
 
+    const changeSearch = (value) => {
+        setSearch(value)
+    }
+
     const openPopup = (movie) => {
         setSelectedMovie(movie);
     };
@@ -173,17 +202,29 @@ function App() {
         if (genre) {
             sortFilmByGenre(genre).then((dataMovies) => {
                 setMovies(dataMovies.results);
+                console.log('Films trouvés par genre ', dataMovies.results);
             });
-        }else{
-            fetchData().then((dataMovies) => setMovies(dataMovies.results));
+        }else if(search.trim().length > 0){
+            searchMoviebyTitle(search).then((dataMovies) => {
+                console.log('Films trouvés par recherche', dataMovies.results);
+                setMovies(dataMovies.results);
+            });
         }
-    }, [genre]);
+        else{
+            fetchData().then((dataMovies) =>{
+                setMovies(dataMovies.results)
+                console.log('Films par défaut ', movies);
+                } 
+            );
+        }
+    }, [genre, search]);
 
-    
+    console.log(movies);
     return (
         <>
         <Header />
-        <Searchbar />
+        <h2>Recherche pour : {search}</h2>
+        <Searchbar onSearchChange={changeSearch}/>
         <Selectgenre onGenreChange={changeGenre}/>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h1>Films du moment</h1>

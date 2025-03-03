@@ -5,6 +5,8 @@ Ce projet utilise l'api TMDB pour obtenir des films, ainsi que des infos de ces 
 Pour faire fonctionner le projet :
 
 - git clone LIEN_DU_PROJET
-- Se placer à la racine du projet et lancé npm install
+- Se placer à la racine du projet et lancé npm install et npm install dotenv
+- Créer un .env avec le contenu du .env.example et remplacer API_KEY par votre clé api
 - Puis npm run dev pour lancer le projet, il y aura un lien localhost
-- Mettre son credential dans les différents composants
+- Pour créer un nouveau composant, ne pas oublier d'intégrer la variable :
+    const credential = import.meta.env.VITE_API_KEY;
